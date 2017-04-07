@@ -1,0 +1,12 @@
+---
+
+- include: install_python_36.yml
+  tags: [system, packages]
+
+- include: install_additional_packages.yml
+  tags: [system, packages]
+
+- include: install_uwsgi_nginx.yml
+  when: web == True
+  tags: [system, web]
+

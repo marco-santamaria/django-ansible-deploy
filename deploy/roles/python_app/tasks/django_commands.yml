@@ -1,0 +1,20 @@
+---
+
+- name: run Django database migrations for app {{ app_name }}
+  command: /opt/{{ app_name }}/bin/django-admin migrate --noinput --settings={{ app_name }}.settings
+  become: true
+  become_user: "{{ user }}"
+  when: django_migrate == True
+
+- name: run Django collectstatic for app {{ app_name }}
+  command: /opt/{{ app_name }}/bin/django-admin collectstatic --noinput --settings={{ app_name }}.settings
+  become: true
+  become_user: "{{ user }}"
+  when: django_collectstatic == True
+
+- name: run custom Django commands for app {{ app_name }}
+  command: /opt/{{ app_name }}/bin/django-admin {{ item.command }} --settings={{ app_name }}.settings
+  become: true
+  become_user: "{{ user }}"
+  when: django_commands == True
+  with_items: "{{ commands }}"

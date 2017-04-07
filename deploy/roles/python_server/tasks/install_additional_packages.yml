@@ -1,0 +1,8 @@
+---
+
+- name: install utility packages
+  yum: name=sudo,bzip2,tar,git
+
+- name: install PostgreSQL client requirements
+  yum: name=postgresql-libs
+  when: postgresql == True

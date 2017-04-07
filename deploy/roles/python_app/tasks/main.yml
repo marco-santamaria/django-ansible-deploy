@@ -1,0 +1,20 @@
+---
+
+- include: virtualenv_user_dirs.yml
+  tags: [config, virtualenv]
+
+- include: uwsgi_nginx.yml
+  when: web == True
+  tags: [config, services, web]
+
+- include: python_packages.yml
+  tags: [deploy, python]
+
+- include: environment_file.yml
+  tags: [deploy, env]
+
+- include: django_commands.yml
+  when: django == True
+  tags: [deploy, django]
+
+- meta: flush_handlers

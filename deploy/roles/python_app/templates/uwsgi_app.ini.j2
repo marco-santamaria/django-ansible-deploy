@@ -1,0 +1,16 @@
+[uwsgi]
+plugin = python36u
+home = /opt/{{ app_name }}
+module = {{ app_name }}.wsgi:application
+socket = /opt/{{ app_name }}/uwsgi.sock
+chmod-socket = 660
+daemonize = /var/log/{{ app_name }}/uwsgi.log
+
+harakiri = 30
+enable-threads = true
+vacuum = true
+
+# Read environment variables
+for-readline = /opt/{{ app_name }}/.env
+  env = %(_)
+endfor =

@@ -1,0 +1,39 @@
+---
+
+- name: ensure the database {{ db_name }} is present
+  become: true
+  become_user: "postgres"
+  postgresql_db: >
+    state=present
+    db={{ db_name }}
+  tags: [config, database]
+
+- name: ensure the user {{ db_user }} has access to database {{ db_name }}
+  become: true
+  become_user: postgres
+  postgresql_user: >
+    name={{ db_user }}
+    password={{ db_password }}
+    state=present
+    priv=CONNECT
+    db={{ db_name }}
+  tags: [config, database]
+
+- name: ensure the user {{ db_user }} has necessary privileges
+  become: true
+  become_user: postgres
+  postgresql_user: >
+    name={{ db_user }}
+    role_attr_flags=LOGIN,CREATEDB
+  tags: [config, database]
+
+- name: ensure the user {{ db_user }} has schema privileges
+  become: true
+  become_user: postgres
+  postgresql_privs: >
+    privs=ALL
+    type=schema
+    objs=public
+    role={{ db_user }}
+    db={{ db_name }}
+  tags: [config, database]

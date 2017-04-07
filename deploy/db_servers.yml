@@ -1,0 +1,9 @@
+---
+
+- hosts: db-servers
+  roles:
+    - role: postgresql_db
+      app_name: pycon8
+      db_name: "{{ lookup('ini', db_name_env_var + ' type=properties file=' + env_file) }}"
+      db_user: "{{ lookup('ini', db_user_env_var + ' type=properties file=' + env_file) }}"
+      db_password: "{{ lookup('ini', db_password_env_var + ' type=properties file=' + env_file) }}"

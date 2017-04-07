@@ -1,0 +1,11 @@
+---
+
+- name: restart uwsgi
+  systemd:
+    name: uwsgi
+    state: restarted
+
+- name: restart nginx
+  systemd:
+    name: nginx
+    state: restarted

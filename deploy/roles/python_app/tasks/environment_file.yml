@@ -1,0 +1,7 @@
+---
+
+- name: install environment file for app {{ app_name }}
+  copy: src={{ env_file }}
+        dest=/opt/{{ app_name }}/.env
+        owner={{ user }}
+        group={{ user }}

@@ -1,0 +1,12 @@
+[db-servers]
+main-db   ansible_host=192.168.33.11   ansible_user=vagrant ansible_become=true
+
+[web-servers]
+pycon8    ansible_host=192.168.33.10   ansible_user=vagrant ansible_become=true
+
+[servers:children]
+db-servers
+web-servers
+
+[servers:vars]
+inventory=local

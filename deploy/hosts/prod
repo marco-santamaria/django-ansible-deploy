@@ -1,0 +1,12 @@
+[db-servers]
+main-db   ansible_host=so.me.ip.address   ansible_user=root
+
+[web-servers]
+pycon8    ansible_host=so.me.ip.address ansible_user=root
+
+[servers:children]
+db-servers
+web-servers
+
+[servers:vars]
+inventory=prod

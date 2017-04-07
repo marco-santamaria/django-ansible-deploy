@@ -1,0 +1,8 @@
+---
+
+env_dir: 'files'
+env_file: "{{ env_dir }}/{{ app_name }}.env.{{ inventory }}"
+db_login_user: 'postgres'
+db_name_env_var: 'DB_NAME'
+db_user_env_var: 'DB_USER'
+db_password_env_var: 'DB_PASSWORD'

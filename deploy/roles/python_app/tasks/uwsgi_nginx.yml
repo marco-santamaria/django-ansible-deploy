@@ -1,0 +1,10 @@
+---
+
+- name: create uWSGI configuration file for app {{ app_name }}
+  template: src=uwsgi_app.ini.j2 dest=/etc/uwsgi.d/{{ app_name }}.ini
+            owner={{ user }} group=nginx
+  notify: restart uwsgi
+
+- name: create NGiNX configuration file for app {{ app_name }}
+  template: src=nginx_app.conf.j2 dest=/etc/nginx/conf.d/{{ app_name }}.conf
+  notify: restart nginx

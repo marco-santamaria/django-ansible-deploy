@@ -1,0 +1,53 @@
+---
+
+- name: remove temporary directory for app {{ app_name }}
+  file: path=/opt/{{ app_name }}/tmp state=absent
+
+- name: create temporary directory for app {{ app_name }}
+  file: path=/opt/{{ app_name }}/tmp state=directory owner={{ user }} group={{ user }}
+
+- name: extract installation bundle for app {{ app_name }}
+  unarchive: src={{ bundle_file }} dest=/opt/{{ app_name }}/tmp owner={{ user }} group={{ user }}
+  when: bundle_file is defined
+
+- name: get all Python packages for app {{ app_name }}
+  find:
+    paths: /opt/{{ app_name }}/tmp
+  register: required_packages
+
+- name: install extracted Python packages for app {{ app_name }}
+  become: True
+  become_user: "{{ user }}"
+  pip:
+    virtualenv: /opt/{{ app_name }}
+    virtualenv_python: /opt/{{ app_name }}/bin/python
+    name: "{{ item.path }}"
+    extra_args: '-I --no-index --no-deps --no-cache-dir'
+    state: forcereinstall
+  with_items:
+    - "{{ required_packages.files }}"
+  when: bundle_file is defined
+  notify: restart uwsgi
+
+- name: clone GIT repository for app {{ app_name }}
+  git:
+    repo: "{{ git_repo }}"
+    dest: /opt/{{ app_name }}/tmp
+    version: "{{ version }}"
+    accept_hostkey: True
+  when: git_repo is defined
+
+- name: install cloned GIT repo and requirements for app {{ app_name }}
+  become: True
+  become_user: "{{ user }}"
+  pip:
+    chdir: /opt/{{ app_name }}/tmp
+    virtualenv: /opt/{{ app_name }}
+    virtualenv_python: /opt/{{ app_name }}/bin/python
+    requirements: /opt/{{ app_name }}/tmp/requirements/prod.txt
+    extra_args: '--no-cache-dir'
+    state: forcereinstall
+  when: git_repo is defined
+
+- name: remove temporary directory for app {{ app_name }}
+  file: path=/opt/{{ app_name }}/tmp state=absent

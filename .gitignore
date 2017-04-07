@@ -1,0 +1,40 @@
+# Python
+*.py[cod]
+__pycache__
+
+# Logs
+*.log*
+pip-log.txt
+
+# Editors
+*.sublime-*
+.idea
+
+# Collected statics
+static/
+
+# Testing
+coverage
+.coverage
+.cache
+
+# Docs
+docs/build
+
+# Setuptools
+build
+dist
+*.egg-info
+.eggs
+
+# Binaries
+*.so
+*.pyd
+*.exe
+
+# Other
+.env
+deploy/files/*bundle*
+deploy/files/*env*
+*.retry
+.vagrant

@@ -1,0 +1,30 @@
+---
+
+- name: install uWSGI and NGINX
+  yum: name=uwsgi,uwsgi-plugin-python36u,nginx state=latest
+  tags: packages
+
+- name: disable default NGINX server block
+  copy: src=nginx.conf dest=/etc/nginx/nginx.conf
+        owner=root group=root
+
+- name: enable uWSGI service
+  systemd:
+    name: uwsgi
+    enabled: yes
+  tags: services
+
+- name: enable NGINX service
+  systemd:
+    name: nginx
+    enabled: yes
+  tags: services
+
+- name: copy NGINX SELinux policy
+  copy: src=nginx-uwsgi-sock.pp dest=/tmp/nginx-uwsgi-sock.pp
+  register: nginx_selinux_policy_output
+  when: nginx_selinux_policy == True
+
+- name: install NGINX SELinux policy
+  shell: /usr/sbin/semodule -i /tmp/nginx-uwsgi-sock.pp
+  when: nginx_selinux_policy == True and nginx_selinux_policy_output.changed

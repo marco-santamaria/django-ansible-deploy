@@ -1,0 +1,19 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Pycon 8 talk list</title>
+  </head>
+  <body>
+    <h1 style="background: #333333; color: white; padding: 10px; margin: 0">
+        <img style="height: 100px" src="{% static 'talks/logo.svg' %}" alt="*">
+        PyCon Otto is great!
+    </h1>
+    <ul>
+        {% for talk in talks %}
+            <li>{{ talk.name }}</li>
+        {% endfor %}
+    </ul>
+  </body>
+</html>

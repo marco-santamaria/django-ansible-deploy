@@ -1,0 +1,37 @@
+---
+
+# - name: update all packages
+#  yum: name=* state=latest
+
+- name: install PostrgeSQL packages
+  yum: name=postgresql-server,postgresql-contrib,python-psycopg2 state=latest
+  tags: [config, database]
+
+- name: initiate database
+  command: postgresql-setup initdb
+           creates=/var/lib/pgsql/data/postgresql.conf
+  notify: enable postgresql
+  changed_when: true
+  tags: [config, database]
+
+# NOTE: carefull with the following two tasks, better to use specific ip ranges
+
+- name: ensure PostgreSQL is listening on all hosts
+  lineinfile: dest=/var/lib/pgsql/data/postgresql.conf
+       regexp='^#?listen_addresses\s*='
+       line="listen_addresses = '*'"
+       state=present
+  notify: restart postgresql
+  changed_when: true
+  tags: [config, database]
+
+- name: ensure PostgreSQL accept password connection by all hosts
+  lineinfile: dest=/var/lib/pgsql/data/pg_hba.conf
+       line="host    all             all             0.0.0.0/0            md5"
+       state=present
+  changed_when: true
+  notify: restart postgresql
+  changed_when: true
+  tags: [config, database]
+
+- meta: flush_handlers

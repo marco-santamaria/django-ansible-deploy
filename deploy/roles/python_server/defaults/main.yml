@@ -1,0 +1,5 @@
+---
+
+web: True
+postgresql: True
+nginx_selinux_policy: True

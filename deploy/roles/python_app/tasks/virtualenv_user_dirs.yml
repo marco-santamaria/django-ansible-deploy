@@ -1,0 +1,16 @@
+---
+
+- name: create the virtual environment for app {{ app_name }}
+  command: python3.6 -m venv /opt/{{ app_name }}
+  args:
+    creates: /opt/{{ app_name }}/bin/activate
+
+- name: create system user for app {{ app_name }}
+  user: name={{ user }} system=yes createhome=no
+
+- name: set virtual environment owner and group for {{ app_name }}
+  file: path=/opt/{{ app_name }}
+        recurse=yes owner={{ user }} group={{ user }} state=directory
+
+- name: create log directory for {{ app_name }}
+  file: path=/var/log/{{ app_name }} owner={{ user }} group={{ user }} state=directory

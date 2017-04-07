@@ -1,0 +1,10 @@
+---
+
+- name: install IUS repo
+  yum: name=https://centos7.iuscommunity.org/ius-release.rpm
+
+- name: update all packages
+  yum: name=* state=latest
+
+- name: install Python stack packages
+  yum: name=python36u,python36u-devel,python36u-pip state=latest

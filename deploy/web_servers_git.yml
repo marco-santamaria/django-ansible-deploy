@@ -1,0 +1,10 @@
+---
+
+- hosts: web-servers
+  roles:
+    - role: python_app
+      app_name: pycon8
+      http_port: 80
+      version: "{{ pycon8 }}"
+      git_repo: "https://marco-santamaria@bitbucket.org/marco-santamaria/pycon8.git"
+      when: pycon8 is defined

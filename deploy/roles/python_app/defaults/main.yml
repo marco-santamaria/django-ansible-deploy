@@ -1,0 +1,14 @@
+---
+
+web: True
+django: True
+django_migrate: True
+django_collectstatic: True
+django_commands: True
+http_server_name: '""'
+http_port: 80
+app_slug: "{{ app_name | regex_replace('_', '-') }}"
+user: "{{ app_slug }}"
+bundle_dir: 'files'
+env_dir: 'files'
+env_file: "{{ env_dir }}/{{ app_name }}.env.{{ inventory }}"

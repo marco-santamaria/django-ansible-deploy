@@ -1,0 +1,12 @@
+---
+
+- hosts: web-servers
+  roles:
+    - role: python_app
+      app_name: pycon8
+      http_port: 80
+      version: "{{ pycon8 }}"
+      bundle_file: "{{ bundle_dir }}/pycon8-{{ version }}-bundle.tar.bz2"
+      commands:
+        - command: load_talks
+      when: pycon8 is defined
