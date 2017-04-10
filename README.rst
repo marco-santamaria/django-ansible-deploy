@@ -25,12 +25,15 @@ environment with Python 3.6, then run the command:
 
     pip install -r requirements/local.txt
 
-To create the installation bundle in the ``deploy/files`` folder you can run
+To create an `installation bundle`_ in the ``deploy/files`` folder you can run
 the following command:
 
 .. code-block:: bash
 
     invoke build --bundle
+
+.. _`installation bundle`:
+    https://pip.pypa.io/en/stable/user_guide/#installation-bundles
 
 To create two local CentOS virtual machines use the provided Vagrantfile tested
 with the VirtualBox provider:
@@ -57,12 +60,10 @@ Then to deploy on the two local Vagrant boxes run the main playbook:
     ansible-playbook -i hosts/local all_servers.yml --extra-vars "pycon8=0.1.0" -vvv
 
 The two CentOS 7 machines will be configured as web server and database server
-and the project will be deployed pulling the source code directly fron GIT and
-installing all the requirements from PyPI.
-
+and the project will be deployed using the installation bundle.
 
 Using the ``git_repo`` variable it is possible to deploy in the target machines
-directly from GIT and PyPI 
+directly from GIT and PyPI:
 
 .. code-block:: yaml
 
