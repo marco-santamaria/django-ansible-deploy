@@ -6,5 +6,5 @@
       app_name: pycon8
       http_port: 80
       version: "{{ pycon8 }}"
-      git_repo: "https://marco-santamaria@bitbucket.org/marco-santamaria/pycon8.git"
+      git_repo: "https://github.com/marco-santamaria/django-ansible-deploy.git"
       when: pycon8 is defined
